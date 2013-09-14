@@ -23,9 +23,9 @@ module.exports = function() {
 
   // Routes
   require('./routes')(app, config);
-
+  
   // Start the app
   var port = process.env.PORT || config.port || 3000;
   app.listen(port);
   console.info("Express app started on port " + port);
-}
+};

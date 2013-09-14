@@ -1,14 +1,6 @@
 var passport      = require('passport');
 
 module.exports = function(app, config) {
-  // Setup CORS
-  app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', config.clientUrl);
-    res.header('Access-Control-Allow-Headers', 'Content-Type,X-Requested-With');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-  });
-
   app.options('*', function(req, res){
     res.send(200); 
   });
@@ -23,19 +15,26 @@ module.exports = function(app, config) {
   });
 
   // Auth
-  app.post('/api/login', function(req, res, next) {
-    // Implement login
-  });
+  app.post('/login',
+    passport.authenticate('local',
+      {
+        successRedirect: '/api/news',
+        failureRedirect: '/login'
+        //failureFlash: 'you fail',
+        //successFlash: 'Welcome!'
+      })
+  );
 
-  app.post('/api/signup', function(req, res, next) {
+  app.post('/signup', function(req, res, next) {
     // Implement signup
   });
 
   app.get('/api/news', function(req, res, next) {
     // Implement news api
+    res.send('hi mom');
   });
 
   app.get('/api/rate', function(req, res, next) {
     // Implement news rating
   });
-}
+};
